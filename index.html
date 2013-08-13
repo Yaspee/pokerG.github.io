@@ -1,0 +1,27 @@
+---
+layout: page
+title: pokerG's Blog!
+tagline: Man is a by deposed king, otherwise wouldn't have lost because his throne and sad
+---
+{% include JB/setup %}
+
+<h1>最新文章</h1>
+{% for post in site.posts limit:5 %}
+	<div class="hero-unit">
+		<h2>{{ post.title }}</h2>
+		<p>{{ post.excerpt }}</p>
+	</div>
+	<div class="pull-right">
+	{{ post.date | date_to_long_string }} | <span class="label {{ post.kind }}">{{ post.label }}</span>
+	</div>
+	<p>
+	<a href="{{site.url}}{{post.url}}" >浏览全文</a>
+	</p>
+	{% if forloop.index != 5 %}
+		<hr>
+	{% endif %}
+	<br>
+{% endfor %}
+
+
+
