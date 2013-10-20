@@ -92,6 +92,47 @@
 
 
 <div class="post">
+  <h3 class="title"><a href="/Programming Language/%E5%B0%86json%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5mongodb--Golang%E5%AE%9E%E7%8E%B0/">将json文件导入mongodb--Golang实现</a> <span class="date">2013-10-20</span></h3>
+
+  <p>&emsp;&emsp;使用go语言将json文件导入mongodb中相对还是比较方便的。</p>
+
+<p>&emsp;&emsp;首先 我用的是 mgo 这个 驱动。 其次因为文件是gz压缩 的。所以我们得先解压。使用 go自带的pkg <code>compress/gzip</code> 就行。</p>
+
+<pre><code>fr, err := os.Open(fpath)
+handleError(err)
+defer fr.Close()
+
+fmt.Println(fr.Name())
+
+gr, err := gzip.NewReader(fr)
+handleError(err)
+</code></pre>
+
+<p>&emsp;&emsp;正常来说，这里直接 调用 <code>gr.Read()</code>就可以了。。但是由于我的文件比较大，而且 <code>ioutil.ReadAll()</code> 也不行 ，所以这里我使用了循环读入</p>
+
+<pre><code>// 因为 gr一次读入 读满的话是3800 - 4000个字符，
+// 所以BUFSIZE = 4000
+buf := make([]byte, BUFSIZE)
+var data []byte
+var num int = 0
+for {
+    n, err := gr.Read(buf)
+    data = append(data, buf[:n]...)
+    if err == io.EOF {
+        break
+    }
+    num += n
+    handleError(err)
+}
+</code></pre>
+
+
+  <div class="more">
+    <a href="/Programming Language/%E5%B0%86json%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5mongodb--Golang%E5%AE%9E%E7%8E%B0/" class="btn">read more..</a>
+  </div>
+</div>
+
+<div class="post">
   <h3 class="title"><a href="/Programming Language/Go1.2-Release/">Go1.2 Release</a> <span class="date">2013-09-22</span></h3>
 
   <p>&emsp;&emsp;Go1.2发布了，做了一些调整和改进，这里我就只谈谈几个跟我目前关系比较大的，其他的请去查看[release notes](&ldquo;http://tip.golang.org/doc/go1.2&rdquo;)</p>
@@ -357,23 +398,6 @@ func (b *s2)foo(){
 
   <div class="more">
     <a href="/Programming Language/interface/" class="btn">read more..</a>
-  </div>
-</div>
-
-<div class="post">
-  <h3 class="title"><a href="/Philosophy/%E8%8B%A6%E9%9A%BE/">苦难</a> <span class="date">2013-08-24</span></h3>
-
-  <p>&emsp;&emsp;面对社会悲剧，我们有理想、信念、正义感、崇高感支撑着我们，我们相信自己在精神上无比地优越于那迫害乃至毁灭我们的恶势力，因此我们可以含笑受难，慷慨赴死。我们是舞台上的英雄，哪怕眼前这个剧场里的观众全都浑浑噩噩，是非颠倒，我们仍有勇气把戏演下去，演给我们心目中绝对清醒公正的观众看，我们称这观众为历史、上帝或者良心。</p>
-
-<p>&emsp;&emsp;可是，面对自然悲剧，我们有什么呢？这里没有舞台，只有空漠无际的苍穹。我们不是英雄，只是朝生暮死的众生。任何人间理想都抚慰不了生老病死的悲哀，在天灾人祸面前也谈不上什么正义感。当史前人类遭受大洪水的灭顶之灾时，当庞贝城居民被维苏威火山的岩浆吞没时，他们能有什么慰藉呢？地震,海啸，车祸，空难，瘟疫，绝症&hellip;&hellip;大自然的恶势力轻而易举地把我们或我们的亲人毁灭。我们面对的是没有灵魂的敌手，因而不能以精神的优越自慰，却愈发感到了生命的卑微。没有上帝来拯救我们，因为这灾难正是上帝亲手降下。我们愤怒，但无从泄愤。我们冤屈，但永无申冤之日。我们反抗，但我们的反抗孤立无助，注定失败。</p>
-
-<p>&emsp;&emsp;然而我们未必就因此倒下。也许，没有浪漫气息的悲剧是我们最本质的悲剧，不具有英雄色彩的勇气是我们最真实的勇气。在无可告慰的绝望中，我们咬牙挺住。我们挺立在那里，没有观众，没有证人，也没有期待，没有援军。我们不倒下，仅仅是因为我们不肯让自己倒下。我们以此维护了人的最高的也是最后的尊严————人在神面前的尊严。</p>
-
-<p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;————周国平</p>
-
-
-  <div class="more">
-    <a href="/Philosophy/%E8%8B%A6%E9%9A%BE/" class="btn">read more..</a>
   </div>
 </div>
 

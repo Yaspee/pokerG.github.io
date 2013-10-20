@@ -3,7 +3,83 @@
   <channel>
     <title>pokerG</title>
     <link>http://pokerg.github.io</link>
-    <pubDate>22 Sep 13 16:26 CST</pubDate>
+    <pubDate>20 Oct 13 18:30 CST</pubDate>
+    <item>
+      <title>将json文件导入mongodb--Golang实现</title>
+      <link>http://pokerg.github.io/Programming Language/%E5%B0%86json%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5mongodb--Golang%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>2013-10-20 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;&amp;emsp;&amp;emsp;使用go语言将json文件导入mongodb中相对还是比较方便的。&lt;/p&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;首先 我用的是 mgo 这个 驱动。 其次因为文件是gz压缩 的。所以我们得先解压。使用 go自带的pkg &lt;code&gt;compress/gzip&lt;/code&gt; 就行。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;fr, err := os.Open(fpath)
+handleError(err)
+defer fr.Close()
+
+fmt.Println(fr.Name())
+
+gr, err := gzip.NewReader(fr)
+handleError(err)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;正常来说，这里直接 调用 &lt;code&gt;gr.Read()&lt;/code&gt;就可以了。。但是由于我的文件比较大，而且 &lt;code&gt;ioutil.ReadAll()&lt;/code&gt; 也不行 ，所以这里我使用了循环读入&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// 因为 gr一次读入 读满的话是3800 - 4000个字符，
+// 所以BUFSIZE = 4000
+buf := make([]byte, BUFSIZE)
+var data []byte
+var num int = 0
+for {
+    n, err := gr.Read(buf)
+    data = append(data, buf[:n]...)
+    if err == io.EOF {
+        break
+    }
+    num += n
+    handleError(err)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp; 如果只有 一个 类似&lt;code&gt;｛&amp;quot;id&amp;quot;:12434,&amp;quot;name&amp;quot;:foo}&lt;/code&gt; 这样的数据话 直接&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var inter interface{}
+err = json.Unmarshal([]byte(s), &amp;amp;inter)
+handleError(err)
+c := session.DB(&amp;quot;test&amp;quot;).C(&amp;quot;user&amp;quot;)
+err = c.Insert(inter)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;&lt;strong&gt;注意不能直接将数据写入DB，没有经过解码的话，存进去的将是ASCII码值&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;但是 如果是&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;｛&amp;quot;id&amp;quot;:12434,&amp;quot;name&amp;quot;:&amp;quot;foo&amp;quot;}
+｛&amp;quot;id&amp;quot;:12435,&amp;quot;name&amp;quot;:&amp;quot;foo1&amp;quot;}
+｛&amp;quot;id&amp;quot;:12436,&amp;quot;name&amp;quot;:&amp;quot;foo2&amp;quot;}  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;使用 &lt;code&gt;json.Unmarshal()&lt;/code&gt; 会发生错误，对于这种情况，我暂时还没想到其他办法，所以就使用了正则表达式，将其分割成[]string,然后再处理&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;reg, err := regexp.Compile(`[{].*[}][\n]`)
+handleError(err)
+
+sdata := reg.FindAllString(string(data), -1)
+fmt.Println(len(sdata))
+
+for _, s := range sdata {
+    var inter interface{}
+
+    err = json.Unmarshal([]byte(s), &amp;amp;inter)
+    handleError(err)
+    c := session.DB(&amp;quot;testGoBig&amp;quot;).C(&amp;quot;Event&amp;quot;)
+    err = c.Insert(inter)
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;这样就成功的将json文件导入了mongodb中。因为测试的数据比较大，（大约 2G) 所以 串行的话 大约要1个半小时，所以我又用了goruntine，下次说说其中遇到的坑和经验。&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>Go1.2 Release</title>
       <link>http://pokerg.github.io/Programming Language/Go1.2-Release/</link>
