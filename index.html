@@ -92,6 +92,44 @@
 
 
 <div class="post">
+  <h3 class="title"><a href="/Programming Language/%E5%B0%86json%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5mongodb--goruntine/">将json文件导入mongodb--goruntine</a> <span class="date">2013-10-21</span></h3>
+
+  <p>&emsp;&emsp;接着上次的，因为数据比较大，单线程的话，速度实在不能忍，所以就要使用goruntine。</p>
+
+<p>&emsp;&emsp;我们首先要看是哪里的速度过慢，从程序我们就可以看出主要是三个点：1.文件读取；2.正则表达式的处理；3.写入mongodb。所以就测试了一下，文件读取大约是几百毫秒，正则表达式的处理大约在2秒到4秒，而写入mongodb随文件的大小以及系统的情况，大约也是3到5秒，最慢能到10多秒。</p>
+
+<p>&emsp;&emsp;文件读取速度对整体影响不大，所以没必要再优化，而正则表达式使用的Go自带的引擎，所以，只有第三项可以做些什么，而且也就是它耗时最多。</p>
+
+<p>&emsp;&emsp; 因为我们是要处理一系列文件，所以这里就有了两种思路，第一种是每个文件的处理用一个goruntine，第二种是在写入mongodb时，每条记录使用一个goruntine。（当然更好是设计两层模型,还没有尝试，就不说了。）。</p>
+
+<p>&emsp;&emsp;首先，我们来看看第二种，</p>
+
+<pre><code>chs = make([]chan int, len(sdata))
+
+for i, s := range chs {
+    chs[i] = make(chan int)
+    go func(s string, i int) {
+        var inter interface{}
+            err := json.Unmarshal([]byte(s), &amp;inter)
+            handleError(err)
+            err = c.Insert(inter)
+            handleError(err)
+        chs[i] &lt;- 1
+    }(s, i)
+}
+for i, ch := range chs {
+    &lt;-ch
+    fmt.Print(i, &quot;,&quot;)
+}
+</code></pre>
+
+
+  <div class="more">
+    <a href="/Programming Language/%E5%B0%86json%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5mongodb--goruntine/" class="btn">read more..</a>
+  </div>
+</div>
+
+<div class="post">
   <h3 class="title"><a href="/Programming Language/%E5%B0%86json%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5mongodb--Golang%E5%AE%9E%E7%8E%B0/">将json文件导入mongodb--Golang实现</a> <span class="date">2013-10-20</span></h3>
 
   <p>&emsp;&emsp;使用go语言将json文件导入mongodb中相对还是比较方便的。</p>
@@ -364,40 +402,6 @@ var ErrNoProgress = errors.New(&quot;multiple Read calls return no data or error
 
   <div class="more">
     <a href="/Programming Language/Go%E6%A0%87%E5%87%86%E5%BA%93-io-io/" class="btn">read more..</a>
-  </div>
-</div>
-
-<div class="post">
-  <h3 class="title"><a href="/Programming Language/interface/">interface</a> <span class="date">2013-08-26</span></h3>
-
-  <blockquote>
-<p>If I could export one feature of Go into other languages, it would be interfaces.
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;———Rob Pike</p>
-
-<p>&emsp;&emsp;interface作为Golang的整个类型系统的基石，让Golang在基础编程哲学的探索上达到前所未有的高度。&gt;&emsp;&emsp;&emsp;&emsp;——《Go语言编程》</p>
-</blockquote>
-
-<p>&emsp;&emsp;接口是Java引入的特性。在软件工程上占有重要地位。而Golang变革了接口的概念。</p>
-
-<p>&emsp;&emsp;我们考虑这样一个情况，有两个struct都实现了一些非常有用的小子集中的相关方法，这时有办法操作两个struct的任意一个就显得非常有用。那么我们该怎么办呢？这就是接口的作用。</p>
-
-<pre><code>type s1 struct{
-    ...//一些属性
-}
-type s2 struct{
-    ...//一些属性
-｝
-func (a *s1)foo(){
-    ...//具体实现1
-}
-func (b *s2)foo(){
-    ...//具体实现2
-｝
-</code></pre>
-
-
-  <div class="more">
-    <a href="/Programming Language/interface/" class="btn">read more..</a>
   </div>
 </div>
 
