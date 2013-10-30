@@ -3,7 +3,27 @@
   <channel>
     <title>pokerG</title>
     <link>http://pokerg.github.io</link>
-    <pubDate>21 Oct 13 17:57 CST</pubDate>
+    <pubDate>30 Oct 13 16:02 CST</pubDate>
+    <item>
+      <title>Go简单的下载器实现</title>
+      <link>http://pokerg.github.io/Programming Language/Go%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%99%A8%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>2013-10-30 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;&amp;emsp;&amp;emsp;用Go来实现下载功能还是很简单的。直接看代码吧&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func download(url string){
+    resp,err := http.Get(url)
+    handleErr(err)
+    defer resp.Body.Close()
+    body,err := ioutil.ReadAll(resp.Body)
+    handleErr(err)
+    err := ioutil.WriteFile(&amp;quot;./test&amp;quot;,body,0666)
+    handleErr(err)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;核心部分就如此简单，剩下的就自己发挥啦。 比如断点续传什么的。&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>将json文件导入mongodb--goruntine</title>
       <link>http://pokerg.github.io/Programming Language/%E5%B0%86json%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5mongodb--goruntine/</link>

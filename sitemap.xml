@@ -4,6 +4,11 @@
 		<loc>http://pokerg.github.io/</loc>
 	</url>
 	<url>
+		<loc>http://pokerg.github.io/Programming Language/Go%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%99%A8%E5%AE%9E%E7%8E%B0/</loc>
+		<lastmod>2013-10-30</lastmod>
+		<changefreq>weekly</changefreq>
+	</url>
+	<url>
 		<loc>http://pokerg.github.io/Programming Language/%E5%B0%86json%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5mongodb--goruntine/</loc>
 		<lastmod>2013-10-21</lastmod>
 		<changefreq>weekly</changefreq>

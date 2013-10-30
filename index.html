@@ -92,6 +92,30 @@
 
 
 <div class="post">
+  <h3 class="title"><a href="/Programming Language/Go%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%99%A8%E5%AE%9E%E7%8E%B0/">Go简单的下载器实现</a> <span class="date">2013-10-30</span></h3>
+
+  <p>&emsp;&emsp;用Go来实现下载功能还是很简单的。直接看代码吧</p>
+
+<pre><code>func download(url string){
+    resp,err := http.Get(url)
+    handleErr(err)
+    defer resp.Body.Close()
+    body,err := ioutil.ReadAll(resp.Body)
+    handleErr(err)
+    err := ioutil.WriteFile(&quot;./test&quot;,body,0666)
+    handleErr(err)
+}
+</code></pre>
+
+<p>&emsp;&emsp;核心部分就如此简单，剩下的就自己发挥啦。 比如断点续传什么的。</p>
+
+
+  <div class="more">
+    <a href="/Programming Language/Go%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%99%A8%E5%AE%9E%E7%8E%B0/" class="btn">read more..</a>
+  </div>
+</div>
+
+<div class="post">
   <h3 class="title"><a href="/Programming Language/%E5%B0%86json%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5mongodb--goruntine/">将json文件导入mongodb--goruntine</a> <span class="date">2013-10-21</span></h3>
 
   <p>&emsp;&emsp;接着上次的，因为数据比较大，单线程的话，速度实在不能忍，所以就要使用goruntine。</p>
@@ -372,36 +396,6 @@ func WriteFile(filename string, data []byte, perm os.FileMode) error
 
   <div class="more">
     <a href="/Programming Language/Go%E6%A0%87%E5%87%86%E5%BA%93-io-ioutil/" class="btn">read more..</a>
-  </div>
-</div>
-
-<div class="post">
-  <h3 class="title"><a href="/Programming Language/Go%E6%A0%87%E5%87%86%E5%BA%93-io-io/">Go标准库-io-io</a> <span class="date">2013-08-27</span></h3>
-
-  <p>&emsp;&emsp;io包为I/O原语提供了基本的接口。它主要包装了这些原语的已有实现。由于这些接口和原语以不同的实现包装了低级操作，因此除非另行通知，否则客户端不应假定它们对于并行执行是安全的。</p>
-
-<p>&emsp;&emsp;首先我们来看几个variables，这几个variables都是读写操作中可能出现的情况</p>
-
-<pre><code>//ErrShortWrite 用于一个write少于规定的字符数，但是又不能返回一个明确的错误时
-var ErrShortWrite = errors.New(&quot;short write&quot;)
-
-//ErrShortBuffer 用于一个read要求的字符数多于所能提供的字符
-var ErrShortBuffer = errors.New(&quot;short buffer&quot;)
-
-//EOF 就是end-of-file 不用多解释，但是如果EOF发生在一个结构数据流中，error就不应该是EOF
-var EOF = errors.New(&quot;EOF&quot;)
-
-//ErrUnexpectedEOF 意味着EOF发生在读取一个固定数据块或者数据结构的中间
-var ErrUnexpectedEOF = errors.New(&quot;unexpected EOF&quot;)
-
-//ErrNoProgress 发生在多个io.Reader调用Read()方法，却没有返回任何数据或错误时
-//通常作为一个破损的io.Reader实现的标志
-var ErrNoProgress = errors.New(&quot;multiple Read calls return no data or error&quot;)
-</code></pre>
-
-
-  <div class="more">
-    <a href="/Programming Language/Go%E6%A0%87%E5%87%86%E5%BA%93-io-io/" class="btn">read more..</a>
   </div>
 </div>
 
