@@ -3,7 +3,514 @@
   <channel>
     <title>pokerG</title>
     <link>http://pokerg.github.io</link>
-    <pubDate>30 Oct 13 16:02 CST</pubDate>
+    <pubDate>08 Nov 13 16:38 CST</pubDate>
+    <item>
+      <title>二叉树--C语言实现</title>
+      <link>http://pokerg.github.io/ACM/%E4%BA%8C%E5%8F%89%E6%A0%91--C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>2013-11-08 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;&amp;emsp;&amp;emsp;数据结构的作业，把二叉树的链表实现还有各种序的线索二叉树的实现做了一遍。&lt;/p&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;&lt;strong&gt;bianryTree.h&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/*
+    @pokerG
+    This head file define the struct of binaryTree
+    and some basic operation in binaryTree
+*/
+#ifndef _BINARYTREE_H
+#define _BINARYTREE_H
+typedef char TElemType;
+const int MAXLENGTH = 100;
+typedef struct node *treePtr;   //the pointer of tree node
+struct node{    //the struct of tree node
+    TElemType data;
+    bool ltag,rtag;
+    treePtr lchild,rchild;
+};
+
+/*
+    Recurrence create one binaryTree
+    &#39;#&#39; is NULL
+*/ 
+treePtr CreateBT1();
+/*
+    NoRecurrence create one binaryTree
+    input the key and data
+*/
+treePtr CreateBT2(); 
+/*
+    print the tree use generalized list
+*/
+void printBT(treePtr T);
+/*
+    print the threadingTree use generalized list
+*/
+void printThBT(treePtr T);
+
+/*
+    Traverse the binaryTree use recursion or not
+*/
+void PreOrder(treePtr T);
+void InOrder(treePtr T);
+void PostOrder(treePtr T);
+void PreOrderNoRe(treePtr T);
+void InOrderNoRe(treePtr T);
+void PostOrderNoRe(treePtr T);
+void LeverOrder(treePtr T);
+
+/*
+    Threading the binaryTree of different order     
+*/
+void InThreading(treePtr T);
+void PreThreading(treePtr T);
+void PostThreading(treePtr T);
+
+/*
+    Add the head node
+    Threading T to Thrt in the way of Threading
+    Theading is a function pointer 
+*/
+treePtr OrderThreading(treePtr T,void(*Threading)(treePtr T));
+
+/*  
+    Find the next node in ThreadingTree
+*/
+treePtr InNext(treePtr T);
+treePtr PreNext(treePtr T);
+treePtr PostNext(treePtr T);
+
+/*
+    Traverse the ThreadingTree
+    next is a function pointer  
+*/
+void ThreadingTraverse(treePtr T,treePtr (*next)(treePtr T));
+
+/*
+    cancel the thread of binaryTree
+    use in printThBT()
+*/
+void CancelThreading(treePtr T);
+
+#endif
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;&lt;strong&gt;binaryTree.cpp&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;quot;binaryTree.h&amp;quot;
+using namespace std;
+struct stk{     //use in PostOrderNoRe()
+    treePtr ptr;
+    int flag;
+};
+treePtr Head; // record the head of ThreadingTree
+treePtr CreateBT1(){
+    TElemType ch;
+    cin&amp;gt;&amp;gt;ch;
+    treePtr T;
+    if(ch == &#39;#&#39;) T = NULL;
+    else{
+        T = (treePtr)new(node);
+        T -&amp;gt; data = ch;
+        T -&amp;gt; lchild = CreateBT1();
+        if(T-&amp;gt;lchild) T -&amp;gt; ltag = true;
+        T -&amp;gt; rchild = CreateBT1();
+        if(T -&amp;gt; rchild) T -&amp;gt; rtag = true;
+    }
+    return T;
+}
+
+treePtr s[MAXLENGTH];
+treePtr CreateBT2(){
+    int i,j;
+    char ch;
+    treePtr bt,p;
+    cout&amp;lt;&amp;lt;&amp;quot;Please input the key and data:&amp;quot;&amp;lt;&amp;lt;endl;
+    bt = NULL;
+    cin&amp;gt;&amp;gt;i&amp;gt;&amp;gt;ch;
+    while(i != 0 &amp;amp;&amp;amp; ch != 0){
+        p = new(node);
+        p -&amp;gt; data = ch;
+        p -&amp;gt; lchild = NULL;
+        p -&amp;gt; rchild = NULL;
+        s[i] = p;
+        if(i == 1) bt = p;
+        else{
+            j = i / 2;
+            if(i % 2 == 0)
+                s[j] -&amp;gt; lchild = p;
+            else
+                s[j] -&amp;gt; rchild = p;
+        }
+        cin &amp;gt;&amp;gt; i&amp;gt;&amp;gt; ch;
+    }
+    return bt;
+}
+
+void printBT(treePtr T){
+    if(T){
+        cout&amp;lt;&amp;lt;T-&amp;gt;data;
+        if(T-&amp;gt;lchild || T -&amp;gt; rchild){
+            cout&amp;lt;&amp;lt;&amp;quot;(&amp;quot;;
+            printBT(T-&amp;gt;lchild);
+            if(T-&amp;gt;rchild)
+                cout&amp;lt;&amp;lt;&amp;quot;,&amp;quot;;
+            printBT(T-&amp;gt;rchild);
+            cout&amp;lt;&amp;lt;&amp;quot;)&amp;quot;;
+        }
+    }
+}   
+
+void printThBT(treePtr T){
+    if(T){
+        cout&amp;lt;&amp;lt;T-&amp;gt;data;
+        cout&amp;lt;&amp;lt;&amp;quot;(&amp;quot;;
+        if(T-&amp;gt;ltag){
+            cout&amp;lt;&amp;lt;&amp;quot;Link:&amp;quot;;
+            printThBT(T-&amp;gt;lchild);
+        }else
+            cout&amp;lt;&amp;lt;&amp;quot;Thread:&amp;quot;&amp;lt;&amp;lt;T-&amp;gt;lchild-&amp;gt;data;
+        if(T-&amp;gt;rtag){
+            cout&amp;lt;&amp;lt;&amp;quot;,Link:&amp;quot;;
+            printThBT(T-&amp;gt;rchild);
+        }else
+            cout&amp;lt;&amp;lt;&amp;quot;,Thread:&amp;quot;&amp;lt;&amp;lt;T-&amp;gt;rchild-&amp;gt;data;
+
+        cout&amp;lt;&amp;lt;&amp;quot;)&amp;quot;;
+    }
+}
+
+void PreOrder(treePtr T){
+    if(T != NULL){
+        cout&amp;lt;&amp;lt;T-&amp;gt;data&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+        PreOrder(T-&amp;gt;lchild);
+        PreOrder(T-&amp;gt;rchild);
+    }
+}
+
+void InOrder(treePtr T){
+    if(T != NULL){
+        InOrder(T-&amp;gt;lchild);
+        cout&amp;lt;&amp;lt;T-&amp;gt;data&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+        InOrder(T-&amp;gt;rchild);
+    }
+}
+
+void PostOrder(treePtr T){
+    if(T != NULL){
+        PostOrder(T-&amp;gt;lchild);
+        PostOrder(T-&amp;gt;rchild);
+        cout&amp;lt;&amp;lt;T-&amp;gt;data&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+    }
+}
+
+void PreOrderNoRe(treePtr T){
+    treePtr s[MAXLENGTH];
+    int top = -1;
+    while(T != NULL || top != -1){
+        while(T != NULL){
+            cout&amp;lt;&amp;lt;T-&amp;gt;data&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+            s[++top] = T;
+            T = T -&amp;gt; lchild;
+        }
+        if (top != -1){
+            T = s[top--];
+            T = T -&amp;gt; rchild;
+        }
+    }
+}  
+
+void InOrderNoRe(treePtr T){
+    treePtr s[MAXLENGTH];
+    int top = -1;
+    while(T != NULL || top != -1){
+        while(T != NULL){
+            s[++top] = T;
+            T = T -&amp;gt; lchild;
+        }
+        if (top != -1){
+            T = s[top--];
+            cout&amp;lt;&amp;lt;T-&amp;gt;data&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+            T = T -&amp;gt; rchild;
+        }
+    }
+}
+
+void PostOrderNoRe(treePtr T){
+    int top = -1;
+    stk s[MAXLENGTH];
+    while(T != NULL || top != -1){
+        while(T != NULL){
+            s[++top].ptr = T;
+            s[top].flag = 1;
+            T = T -&amp;gt; lchild;            
+        }
+        while(top != -1 &amp;amp;&amp;amp; s[top].flag == 2){
+            T = s[top--].ptr;
+            cout&amp;lt;&amp;lt;T-&amp;gt;data&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+        }
+        if(top != -1){
+            s[top].flag = 2;
+            T = s[top].ptr-&amp;gt;rchild;
+        }else break;
+    }
+}
+
+void LeverOrder(treePtr T){
+    int front, rear;
+    front = rear = 0;
+    treePtr q[MAXLENGTH];
+    if(T == NULL) return ;
+    q[++rear] = T;
+    while(front != rear){
+        T = q[++front];
+        cout &amp;lt;&amp;lt;T-&amp;gt;data&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+        if(T-&amp;gt;lchild != NULL)
+            q[++rear] = T-&amp;gt;lchild;
+        if(T-&amp;gt;rchild != NULL)
+            q[++rear] = T-&amp;gt;rchild;
+    }
+}
+
+treePtr pre;
+
+
+treePtr OrderThreading(treePtr T,void(*Threading)(treePtr T)){
+    treePtr Thrt;   //head pointer
+    if(!(Thrt = (treePtr)new(node))) 
+        return NULL;
+    Thrt -&amp;gt; ltag = false;    //init the head node
+    Thrt -&amp;gt; rtag = true;
+    Thrt -&amp;gt; rchild = Thrt;
+    if(!T) 
+        Thrt -&amp;gt; lchild = Thrt;  
+    else{
+
+        Thrt -&amp;gt; lchild = T;
+        Thrt -&amp;gt; ltag = true;
+        pre = Thrt;
+        Threading(T);   //Threading binaryTree
+        if(Threading != PostThreading){   //PostThreading the last node is root
+            pre -&amp;gt; rchild = Thrt;
+            pre -&amp;gt; rtag = false;
+        }else{
+            if(!T-&amp;gt;rchild){  //while posthreading and the root doesn&#39;t have rchild
+                T-&amp;gt;rchild = Thrt;
+                T-&amp;gt;rtag = false;
+            }
+        }
+    }
+    Head = Thrt;
+    return Thrt;
+}
+
+void ThreadingTraverse(treePtr T,treePtr(*next)(treePtr T)){
+    treePtr tmp = T;
+    for(;;){
+        tmp = next(tmp);
+        if(tmp == T) break;
+        cout&amp;lt;&amp;lt;tmp-&amp;gt;data&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+    }
+}
+
+
+void PreThreading(treePtr T){
+    if(T){
+        if(!T-&amp;gt;lchild){     //predecessor of T
+            T-&amp;gt;ltag = false;
+            T-&amp;gt;lchild = pre;
+        }
+        if(!pre-&amp;gt;rchild){   //successor of pre
+            pre-&amp;gt;rtag = false;
+            pre-&amp;gt;rchild = T;
+        }
+        pre = T;
+        if(T-&amp;gt;ltag)  
+            PreThreading(T-&amp;gt;lchild);
+        if(T-&amp;gt;rtag)
+            PreThreading(T-&amp;gt;rchild);
+    }
+}
+
+void InThreading(treePtr T){
+   if(T){
+        InThreading(T-&amp;gt;lchild);
+        if(!T-&amp;gt;lchild){     
+            T-&amp;gt;lchild = pre;
+            T-&amp;gt;ltag = false;
+        }
+        if(!pre-&amp;gt;rchild){   
+            pre-&amp;gt;rchild = T;
+            pre-&amp;gt;rtag = false;
+        }
+        pre = T;
+        InThreading(T-&amp;gt;rchild);
+    }
+}
+
+void PostThreading(treePtr T){
+    if(T){
+        PostThreading(T-&amp;gt;lchild);
+        PostThreading(T-&amp;gt;rchild);
+        if(!T-&amp;gt;lchild){
+            T-&amp;gt;lchild = pre;
+            T-&amp;gt;ltag = false;
+        }
+        if(!pre-&amp;gt;rchild){
+            pre-&amp;gt;rchild = T;
+            pre-&amp;gt;rtag = false;
+        }
+        pre = T;
+    }
+}
+
+
+treePtr PreNext(treePtr T){
+    if(T-&amp;gt;ltag)
+        return T-&amp;gt;lchild;
+    return T-&amp;gt;rchild;
+}
+
+treePtr InNext(treePtr T){
+    treePtr tmp;
+    tmp = T-&amp;gt; rchild;
+    if(T-&amp;gt;rtag)
+        while(tmp-&amp;gt;ltag)
+            tmp = tmp-&amp;gt;lchild;
+    return tmp;
+}
+
+/*
+    find the parent node of node from binaryTree T
+*/
+treePtr parent(treePtr T,treePtr p){
+    treePtr tmp = T;
+    if(tmp -&amp;gt; lchild == p)
+        return tmp;
+    else{
+        tmp = tmp -&amp;gt; lchild;
+        while(tmp -&amp;gt; lchild != p &amp;amp;&amp;amp; tmp -&amp;gt; rchild != p){
+            if(tmp-&amp;gt;rtag)
+                tmp = tmp -&amp;gt; rchild;
+            else
+                tmp = tmp -&amp;gt; lchild;
+        }
+    }
+    return tmp;
+}
+
+treePtr PostNext(treePtr T){
+    treePtr tmp = T;
+    if(tmp == Head){
+        tmp = tmp -&amp;gt; lchild;
+        if(tmp == Head)   //T is empty
+            return tmp;
+        for(;;){
+            while(tmp -&amp;gt; ltag)
+                tmp = tmp-&amp;gt;lchild;
+            if(tmp-&amp;gt;rtag)
+                tmp = tmp-&amp;gt;rchild;
+            else
+                return tmp;
+        }
+    }
+    treePtr par = parent(Head,tmp);
+    if(par == Head)
+        tmp = Head;
+    else if(!par-&amp;gt;rtag || tmp == par-&amp;gt;rchild)
+        tmp = par; 
+    else{
+        while(par -&amp;gt; rtag){
+            par = par -&amp;gt; rchild;
+            while(par-&amp;gt; ltag)
+                par = par -&amp;gt; lchild;
+        }
+        tmp = par;
+    }
+    return tmp;
+}
+
+
+
+void CancelThreading(treePtr T){
+    int front,rear;
+    front = rear = 0;
+    treePtr q[MAXLENGTH];
+    if(T == NULL) return;
+    q[++rear] = T;
+    while(front != rear){
+        T = q[++front];
+        if(T-&amp;gt;ltag)
+            q[++rear] = T-&amp;gt;lchild;
+        else
+            T-&amp;gt;lchild = NULL;
+        if(T-&amp;gt;rtag)
+            q[++rear] = T-&amp;gt;rchild;
+        else
+            T-&amp;gt;rchild = NULL;
+    }
+}   
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;测试程序main.cpp&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;quot;binaryTree.h&amp;quot;
+using namespace std;
+int main(){
+
+
+    treePtr BT = CreateBT1();
+    cout&amp;lt;&amp;lt;&amp;quot;CreateBT1:&amp;quot;;
+    printBT(BT);
+//    cout&amp;lt;&amp;lt;endl;
+//    BT = CreateBT2();
+//    cout&amp;lt;&amp;lt;&amp;quot;CreateBT2:&amp;quot;;
+//    cout&amp;lt;&amp;lt;endl;
+    cout&amp;lt;&amp;lt;endl&amp;lt;&amp;lt;&amp;quot;PreOrder:&amp;quot;;
+    PreOrder(BT);
+    cout &amp;lt;&amp;lt; endl&amp;lt;&amp;lt;&amp;quot;InOrder:&amp;quot;;
+    InOrder(BT);
+    cout &amp;lt;&amp;lt; endl&amp;lt;&amp;lt;&amp;quot;PostOrder:&amp;quot;;
+    PostOrder(BT);
+    cout &amp;lt;&amp;lt; endl&amp;lt;&amp;lt;&amp;quot;PreOrderNoRe:&amp;quot;;
+    PreOrderNoRe(BT);
+    cout&amp;lt;&amp;lt; endl&amp;lt;&amp;lt;&amp;quot;InOrderNoRe:&amp;quot;;
+    InOrderNoRe(BT);
+    cout&amp;lt;&amp;lt;endl&amp;lt;&amp;lt;&amp;quot;PostOrderNoRe:&amp;quot;;
+    PostOrderNoRe(BT);
+    cout&amp;lt;&amp;lt;endl&amp;lt;&amp;lt;&amp;quot;LeverOrder:&amp;quot;;
+    LeverOrder(BT);
+    cout&amp;lt;&amp;lt;endl&amp;lt;&amp;lt;&amp;quot;InOrderThreading:&amp;quot;;
+    treePtr Thrt;
+    Thrt = OrderThreading(BT,InThreading);
+    cout&amp;lt;&amp;lt;endl;
+    printThBT(BT);
+    cout&amp;lt;&amp;lt;endl&amp;lt;&amp;lt;&amp;quot;InOrderTraverse:&amp;quot;;
+    cout&amp;lt;&amp;lt;endl;
+    ThreadingTraverse(Thrt,InNext);
+    cout&amp;lt;&amp;lt;endl&amp;lt;&amp;lt;&amp;quot;PreOrderThreading:&amp;quot;;
+    CancelThreading(BT);    
+    Thrt = OrderThreading(BT,PreThreading);
+   cout&amp;lt;&amp;lt;endl;
+   printThBT(BT);
+   cout&amp;lt;&amp;lt;endl&amp;lt;&amp;lt;&amp;quot;PreOrderTraverse:&amp;quot;;
+   cout&amp;lt;&amp;lt;endl;
+   ThreadingTraverse(Thrt,PreNext);
+   cout&amp;lt;&amp;lt;endl&amp;lt;&amp;lt;&amp;quot;PostOrderThreading:&amp;quot;;
+   CancelThreading(BT);    
+   Thrt = OrderThreading(BT,PostThreading);
+   cout&amp;lt;&amp;lt;endl;
+   printThBT(BT);
+   cout&amp;lt;&amp;lt;endl&amp;lt;&amp;lt;&amp;quot;PostOrderTraverse:&amp;quot;;
+   cout&amp;lt;&amp;lt;endl;
+   ThreadingTraverse(Thrt,PostNext);
+   cout&amp;lt;&amp;lt;endl;
+   return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     <item>
       <title>Go简单的下载器实现</title>
       <link>http://pokerg.github.io/Programming Language/Go%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%99%A8%E5%AE%9E%E7%8E%B0/</link>

@@ -92,6 +92,36 @@
 
 
 <div class="post">
+  <h3 class="title"><a href="/ACM/%E4%BA%8C%E5%8F%89%E6%A0%91--C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">二叉树--C语言实现</a> <span class="date">2013-11-08</span></h3>
+
+  <p>&emsp;&emsp;数据结构的作业，把二叉树的链表实现还有各种序的线索二叉树的实现做了一遍。</p>
+
+<p>&emsp;&emsp;<strong>bianryTree.h</strong></p>
+
+<pre><code>/*
+    @pokerG
+    This head file define the struct of binaryTree
+    and some basic operation in binaryTree
+*/
+#ifndef _BINARYTREE_H
+#define _BINARYTREE_H
+typedef char TElemType;
+const int MAXLENGTH = 100;
+typedef struct node *treePtr;   //the pointer of tree node
+struct node{    //the struct of tree node
+    TElemType data;
+    bool ltag,rtag;
+    treePtr lchild,rchild;
+};
+</code></pre>
+
+
+  <div class="more">
+    <a href="/ACM/%E4%BA%8C%E5%8F%89%E6%A0%91--C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" class="btn">read more..</a>
+  </div>
+</div>
+
+<div class="post">
   <h3 class="title"><a href="/Programming Language/Go%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%99%A8%E5%AE%9E%E7%8E%B0/">Go简单的下载器实现</a> <span class="date">2013-10-30</span></h3>
 
   <p>&emsp;&emsp;用Go来实现下载功能还是很简单的。直接看代码吧</p>
@@ -367,35 +397,6 @@ type multiWriter struct {
 
   <div class="more">
     <a href="/Programming Language/Go%E6%A0%87%E5%87%86%E5%BA%93-io-multi/" class="btn">read more..</a>
-  </div>
-</div>
-
-<div class="post">
-  <h3 class="title"><a href="/Programming Language/Go%E6%A0%87%E5%87%86%E5%BA%93-io-ioutil/">Go标准库-io-ioutil</a> <span class="date">2013-08-28</span></h3>
-
-  <p>&emsp;&emsp;ioutil封装了一些常用的io操作</p>
-
-<pre><code>//读取r中所有数据
-//返回 读取的数据 和 error
-//读取成功的话 返回nil 而不是 EOF
-//ReadAll 实际上是通过bytes.Buffer的ReadFrom()实现的
-func ReadAll(r io.Reader) ([]byte, error)
-
-//读取文件中的所有数据
-//返回 读取的数据 和 error
-//读取成功的话 返回nil 而不是 EOF
-//ReadFile 和 ReadAll 都是通过readAll()实现的
-//ReadFile会先判断文件的大小，给bytes.Buffer一个预定义容量，避免额外分配内存。
-func ReadFile(filename string) ([]byte, error)
-
-//将 data 写入 文件
-//如果文件不存在，将以perm权限创建文件
-func WriteFile(filename string, data []byte, perm os.FileMode) error
-</code></pre>
-
-
-  <div class="more">
-    <a href="/Programming Language/Go%E6%A0%87%E5%87%86%E5%BA%93-io-ioutil/" class="btn">read more..</a>
   </div>
 </div>
 
