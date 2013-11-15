@@ -3,7 +3,67 @@
   <channel>
     <title>pokerG</title>
     <link>http://pokerg.github.io</link>
-    <pubDate>10 Nov 13 16:46 CST</pubDate>
+    <pubDate>15 Nov 13 17:26 CST</pubDate>
+    <item>
+      <title>表达式求值顺序</title>
+      <link>http://pokerg.github.io/Programming Language/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC%E9%A1%BA%E5%BA%8F/</link>
+      <pubDate>2013-11-15 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;&amp;emsp;&amp;emsp;原文来自于&lt;a href=&#34;http://dave.cheney.net/2013/11/15/evaluation-order-oddity&#34;&gt;http://dave.cheney.net/&lt;sup&gt;2013&lt;/sup&gt;&amp;frasl;&lt;sub&gt;11&lt;/sub&gt;/15/evaluation-order-oddity&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;先来看这段代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import &amp;quot;fmt&amp;quot;
+
+type T struct {
+        i int
+}
+
+func (t *T) readInt() int {
+        t.i += 4
+        return 42
+}
+
+func main() {
+        var d = T{i: 200}
+        end := d.i - 4 + d.readInt()
+        fmt.Println(end)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;根据Go&lt;a href=&#34;http://golang.org/ref/spec#Order_of_evaluation&#34;&gt;spec&lt;/a&gt;我们可知表达式的求值过程是自左向右的。所以我们可以想想这段代码打印出来的应该是&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;200-4 + 42 = 238
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;但是238是正确答案么？&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% go run odd.go 
+242
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;啊，太奇怪了，然后让我们来看看gccgo的结果&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% go run -compiler gccgo odd.go 
+238
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;emsp;&amp;esmp;看来它得到了正确答案，那么是gc有问题了或者这个表达式的求值方式确实是相反的？&lt;/p&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;事实上这两个编译器都是正确的，因为这个表达式的求值顺序是不确定的。&lt;/p&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;如果想要得到你想要的答案，应该把这个表达式分成两行，消除加d.i时的二义性。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func main() {
+        var d = T{i:200}
+        v := int(d.readInt32())
+        end := v + d.i - 4
+        fmt.Println(end)    // prints         242
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     <item>
       <title>反应--鬼谷子第二篇</title>
       <link>http://pokerg.github.io/鬼谷子/%E5%8F%8D%E5%BA%94--%E9%AC%BC%E8%B0%B7%E5%AD%90%E7%AC%AC%E4%BA%8C%E7%AF%87/</link>

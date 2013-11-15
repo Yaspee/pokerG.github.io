@@ -92,6 +92,39 @@
 
 
 <div class="post">
+  <h3 class="title"><a href="/Programming Language/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC%E9%A1%BA%E5%BA%8F/">表达式求值顺序</a> <span class="date">2013-11-15</span></h3>
+
+  <p>&emsp;&emsp;原文来自于<a href="http://dave.cheney.net/2013/11/15/evaluation-order-oddity">http://dave.cheney.net/<sup>2013</sup>&frasl;<sub>11</sub>/15/evaluation-order-oddity</a></p>
+
+<p>&emsp;&emsp;先来看这段代码</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+type T struct {
+        i int
+}
+
+func (t *T) readInt() int {
+        t.i += 4
+        return 42
+}
+
+func main() {
+        var d = T{i: 200}
+        end := d.i - 4 + d.readInt()
+        fmt.Println(end)
+}
+</code></pre>
+
+
+  <div class="more">
+    <a href="/Programming Language/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC%E9%A1%BA%E5%BA%8F/" class="btn">read more..</a>
+  </div>
+</div>
+
+<div class="post">
   <h3 class="title"><a href="/鬼谷子/%E5%8F%8D%E5%BA%94--%E9%AC%BC%E8%B0%B7%E5%AD%90%E7%AC%AC%E4%BA%8C%E7%AF%87/">反应--鬼谷子第二篇</a> <span class="date">2013-11-10</span></h3>
 
   <p>&emsp;&emsp;&ldquo;反应&rdquo; 字典的解释是：事情所引起得意见，态度或行动。鬼谷子所论的反应与此略有不同。这里的反应是两种不同的对策。反，通”返“，反过来，反听之，反审之。这里的”反“更多的是指反复了解，反复观察。”应“对别人的态度所做的对策。</p>
@@ -356,35 +389,6 @@ func main() {
 
   <div class="more">
     <a href="/Programming Language/jekyllTogor/" class="btn">read more..</a>
-  </div>
-</div>
-
-<div class="post">
-  <h3 class="title"><a href="/Programming Language/Go%E6%A0%87%E5%87%86%E5%BA%93-bufio/">Go标准库-bufio</a> <span class="date">2013-08-28</span></h3>
-
-  <p>&emsp;&emsp;bufio包实现了带缓存的I/O操作。封装了一个io.Reader或io.Writer对象，返回一个具有缓存和文本读写的对象。</p>
-
-<h1>bufio.go</h1>
-
-<pre><code>//实现了带缓存的
-type Reader struct{
-        buf          []byte
-        rd           io.Reader
-        r, w         int
-        err          error
-        lastByte     int
-        lastRuneSize int
-}
-
-//NewReaderSize将rd封装成一个具有size大小的bufio.Reader对象
-//如果rd的类型就是bufio.Reader且size &gt; minReadBufferSize = 16 直接返回
-//size的大小要大于 minReadBufferSize 否则 返回大小为minReadBufferSize的bufio.Reader
-func NewReaderSize(rd io.Reader, size int) *Reader
-</code></pre>
-
-
-  <div class="more">
-    <a href="/Programming Language/Go%E6%A0%87%E5%87%86%E5%BA%93-bufio/" class="btn">read more..</a>
   </div>
 </div>
 
