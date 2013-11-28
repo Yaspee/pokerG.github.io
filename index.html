@@ -92,6 +92,21 @@
 
 
 <div class="post">
+  <h3 class="title"><a href="/鬼谷子/%E6%8A%B5%E5%B7%87--%E9%AC%BC%E8%B0%B7%E5%AD%90%E7%AC%AC%E5%9B%9B%E7%AF%87/">抵巇--鬼谷子第四篇</a> <span class="date">2013-11-28</span></h3>
+
+  <p>&emsp;&emsp;本篇不像其他各篇，从一些微观和具体操作入手，这篇作者是站在一个宏观的角度，来对问题进行阐述和应对方法。</p>
+
+<p>&emsp;&emsp;巇，就是裂缝，抵巇就是通过抵御来使其得以恢复秩序，一种办法是弥补，另一种就是破而后立。这在古代确实是惊天之语。</p>
+
+<p>&emsp;&emsp;&ldquo;经起秋毫之末，挥之于太山之本。“千里之堤，溃于蚁穴就是这个道理。“自天地之合离终始，必有巇隙，不可不察也”，切记切记，“察之以捭阖”，我们既要放宽心态，又要注意小心谨慎。</p>
+
+
+  <div class="more">
+    <a href="/鬼谷子/%E6%8A%B5%E5%B7%87--%E9%AC%BC%E8%B0%B7%E5%AD%90%E7%AC%AC%E5%9B%9B%E7%AF%87/" class="btn">read more..</a>
+  </div>
+</div>
+
+<div class="post">
   <h3 class="title"><a href="/阴符经/%E9%98%B4%E7%AC%A6%E7%BB%8F%E5%85%A8%E6%96%87/">阴符经全文</a> <span class="date">2013-11-24</span></h3>
 
   <p>&emsp;&emsp;第一次看到《阴符经》是在《大秦帝国-国命纵横》，当时觉得读起来特别有感觉，所以就摘录了下来，早读的时候没事干就背了下来，其实当时只是隐隐约约明白一点，然后想彻底的了解，但是到图书馆找没有相关的书籍，而且当时是寄宿在学校，上网也不是很方便，久而久之也就忘了这回事，后来无一中在南怀瑾的《老子他说》中又看到了，就到网上搜了下，发现以前在《大秦帝国》上竟然引用的是全文！！（我一直以为是片段），顿时觉得这本书不可不读，就买了本《阴符经集释》，因为前一段时间比较忙，也没有怎么看，前几天中午的时候闲来没事，随手翻了翻，就被其吸引了。</p>
@@ -337,47 +352,6 @@ for i, ch := range chs {
 
   <div class="more">
     <a href="/Programming Language/%E5%B0%86json%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5mongodb--goruntine/" class="btn">read more..</a>
-  </div>
-</div>
-
-<div class="post">
-  <h3 class="title"><a href="/Programming Language/%E5%B0%86json%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5mongodb--Golang%E5%AE%9E%E7%8E%B0/">将json文件导入mongodb--Golang实现</a> <span class="date">2013-10-20</span></h3>
-
-  <p>&emsp;&emsp;使用go语言将json文件导入mongodb中相对还是比较方便的。</p>
-
-<p>&emsp;&emsp;首先 我用的是 mgo 这个 驱动。 其次因为文件是gz压缩 的。所以我们得先解压。使用 go自带的pkg <code>compress/gzip</code> 就行。</p>
-
-<pre><code>fr, err := os.Open(fpath)
-handleError(err)
-defer fr.Close()
-
-fmt.Println(fr.Name())
-
-gr, err := gzip.NewReader(fr)
-handleError(err)
-</code></pre>
-
-<p>&emsp;&emsp;正常来说，这里直接 调用 <code>gr.Read()</code>就可以了。。但是由于我的文件比较大，而且 <code>ioutil.ReadAll()</code> 也不行 ，所以这里我使用了循环读入</p>
-
-<pre><code>// 因为 gr一次读入 读满的话是3800 - 4000个字符，
-// 所以BUFSIZE = 4000
-buf := make([]byte, BUFSIZE)
-var data []byte
-var num int = 0
-for {
-    n, err := gr.Read(buf)
-    data = append(data, buf[:n]...)
-    if err == io.EOF {
-        break
-    }
-    num += n
-    handleError(err)
-}
-</code></pre>
-
-
-  <div class="more">
-    <a href="/Programming Language/%E5%B0%86json%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5mongodb--Golang%E5%AE%9E%E7%8E%B0/" class="btn">read more..</a>
   </div>
 </div>
 
