@@ -83,7 +83,8 @@
 
 <div class="row">
   <div class="span8">
-    <p>&emsp;&emsp;使用go语言将json文件导入mongodb中相对还是比较方便的。</p>
+    
+<p>&emsp;&emsp;使用go语言将json文件导入mongodb中相对还是比较方便的。</p>
 
 <p>&emsp;&emsp;首先 我用的是 mgo 这个 驱动。 其次因为文件是gz压缩 的。所以我们得先解压。使用 go自带的pkg <code>compress/gzip</code> 就行。</p>
 
@@ -153,7 +154,6 @@ for _, s := range sdata {
 </code></pre>
 
 <p>&emsp;&emsp;这样就成功的将json文件导入了mongodb中。因为测试的数据比较大，（大约 2G) 所以 串行的话 大约要1个半小时，所以我又用了goruntine，下次说说其中遇到的坑和经验。</p>
-
     <hr>
     <div class="pagination">
       <ul>
@@ -227,7 +227,7 @@ for _, s := range sdata {
     </div> <!-- /container -->
 
     
-<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+<script src="//cdnjscn.b0.upaiyun.com/libs/prettify/r298/prettify.min.js"></script>
 <script>
   var pres = document.getElementsByTagName("pre");
   for (var i=0; i < pres.length; ++i) {

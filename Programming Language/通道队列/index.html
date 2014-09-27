@@ -83,6 +83,7 @@
 
 <div class="row">
   <div class="span8">
+    
     <p>&emsp;&emsp;这是《代码的未来》中的一个例子。</p>
 
 <pre><code>package main
@@ -111,7 +112,6 @@ func main() {
 <p>&emsp;&emsp;经过好长时间的仔细阅读才发现，这个其实是一个累加过程。因为前面的channel一直是堵塞的，当main()中把 0 传递给 最后一个 right时，f()中<code>left&lt;-1+&lt;-right</code>将后一个channel中的值传给前一个，依次向前一个channel中传，最后传到leftmost中，所以最后输出的是 <strong>1000</strong></p>
 
 <p>&emsp;&emsp;这个程序有点像队列，也有点像堆栈，挺有意思的一段小代码，所以就记录下来了。</p>
-
     <hr>
     <div class="pagination">
       <ul>
@@ -168,14 +168,6 @@ func main() {
   <a href="/tags/#Go-ref">Go <span>18</span></a>
 </li>
     
-      <li>
-  <a href="/tags/#tricks-ref">tricks <span>2</span></a>
-</li>
-    
-      <li>
-  <a href="/tags/#channel-ref">channel <span>1</span></a>
-</li>
-    
     </ul>
   </div>
 </div>
@@ -193,7 +185,7 @@ func main() {
     </div> <!-- /container -->
 
     
-<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+<script src="//cdnjscn.b0.upaiyun.com/libs/prettify/r298/prettify.min.js"></script>
 <script>
   var pres = document.getElementsByTagName("pre");
   for (var i=0; i < pres.length; ++i) {

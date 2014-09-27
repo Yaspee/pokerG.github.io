@@ -92,9 +92,42 @@
 
 
 <div class="post">
+  <h3 class="title"><a href="/OS/HITOSExperiment1-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BC%95%E5%AF%BC/">HITOSExperiment1-操作系统的引导</a> <span class="date">2014-09-27</span></h3>
+
+  <p>##实验内容##</p>
+
+<p>改写bootsect.s主要完成如下功能：</p>
+
+<ol>
+<li>bootsect.s能在屏幕上打印一段提示信息“XXX is booting&hellip;”，其中XXX是你给自己的操作系统起的名字，例如LZJos、Sunix等（可以上论坛上秀秀谁的OS名字最帅，也可以显示一个特色logo，以表示自己操作系统的与众不同。）</li>
+</ol>
+
+<p>改写setup.s主要完成如下功能：</p>
+
+<ol>
+<li>bootsect.s能完成setup.s的载入，并跳转到setup.s开始地址执行。而setup.s向屏幕输出一行&rdquo;Now we are in SETUP&rdquo;。</li>
+<li>setup.s能获取至少一个基本的硬件参数（如内存参数、显卡参数、硬盘参数等），将其存放在内存的特定地址，并输出到屏幕上。</li>
+<li>setup.s不再加载Linux内核，保持上述信息显示在屏幕上即可。</li>
+</ol>
+
+<p>####第一个非常简单，而且在实验指导书里写的很清楚了####</p>
+
+<p><pre><code>
+    ! 首先读入光标位置
+    mov ah,#0x03<br />
+    xor bh,bh
+    int 0x10</p>
+
+
+  <div class="more">
+    <a href="/OS/HITOSExperiment1-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BC%95%E5%AF%BC/" class="btn">read more..</a>
+  </div>
+</div>
+
+<div class="post">
   <h3 class="title"><a href="/鬼谷子/%E6%8A%B5%E5%B7%87--%E9%AC%BC%E8%B0%B7%E5%AD%90%E7%AC%AC%E5%9B%9B%E7%AF%87/">抵巇--鬼谷子第四篇</a> <span class="date">2013-11-28</span></h3>
 
-  <p>&emsp;&emsp;本篇不像其他各篇，从一些微观和具体操作入手，这篇作者是站在一个宏观的角度，来对问题进行阐述和应对方法。</p>
+  <p><p>&emsp;&emsp;本篇不像其他各篇，从一些微观和具体操作入手，这篇作者是站在一个宏观的角度，来对问题进行阐述和应对方法。</p></p>
 
 <p>&emsp;&emsp;巇，就是裂缝，抵巇就是通过抵御来使其得以恢复秩序，一种办法是弥补，另一种就是破而后立。这在古代确实是惊天之语。</p>
 
@@ -109,7 +142,7 @@
 <div class="post">
   <h3 class="title"><a href="/阴符经/%E9%98%B4%E7%AC%A6%E7%BB%8F%E5%85%A8%E6%96%87/">阴符经全文</a> <span class="date">2013-11-24</span></h3>
 
-  <p>&emsp;&emsp;第一次看到《阴符经》是在《大秦帝国-国命纵横》，当时觉得读起来特别有感觉，所以就摘录了下来，早读的时候没事干就背了下来，其实当时只是隐隐约约明白一点，然后想彻底的了解，但是到图书馆找没有相关的书籍，而且当时是寄宿在学校，上网也不是很方便，久而久之也就忘了这回事，后来无一中在南怀瑾的《老子他说》中又看到了，就到网上搜了下，发现以前在《大秦帝国》上竟然引用的是全文！！（我一直以为是片段），顿时觉得这本书不可不读，就买了本《阴符经集释》，因为前一段时间比较忙，也没有怎么看，前几天中午的时候闲来没事，随手翻了翻，就被其吸引了。</p>
+  <p><p>&emsp;&emsp;第一次看到《阴符经》是在《大秦帝国-国命纵横》，当时觉得读起来特别有感觉，所以就摘录了下来，早读的时候没事干就背了下来，其实当时只是隐隐约约明白一点，然后想彻底的了解，但是到图书馆找没有相关的书籍，而且当时是寄宿在学校，上网也不是很方便，久而久之也就忘了这回事，后来无一中在南怀瑾的《老子他说》中又看到了，就到网上搜了下，发现以前在《大秦帝国》上竟然引用的是全文！！（我一直以为是片段），顿时觉得这本书不可不读，就买了本《阴符经集释》，因为前一段时间比较忙，也没有怎么看，前几天中午的时候闲来没事，随手翻了翻，就被其吸引了。</p></p>
 
 <p>&emsp;&emsp;这里我就先默写一遍，以表对其的尊重。</p>
 
@@ -151,7 +184,8 @@
 <div class="post">
   <h3 class="title"><a href="/Programming Language/%E9%80%9A%E9%81%93%E9%98%9F%E5%88%97/">通道队列</a> <span class="date">2013-11-16</span></h3>
 
-  <p>&emsp;&emsp;这是《代码的未来》中的一个例子。</p>
+  <pre><code>&lt;p&gt;&amp;emsp;&amp;emsp;这是《代码的未来》中的一个例子。&lt;/p&gt;
+</code></pre>
 
 <pre><code>package main
 
@@ -216,7 +250,8 @@ func main() {
 <div class="post">
   <h3 class="title"><a href="/鬼谷子/%E5%8F%8D%E5%BA%94--%E9%AC%BC%E8%B0%B7%E5%AD%90%E7%AC%AC%E4%BA%8C%E7%AF%87/">反应--鬼谷子第二篇</a> <span class="date">2013-11-10</span></h3>
 
-  <p>&emsp;&emsp;&ldquo;反应&rdquo; 字典的解释是：事情所引起得意见，态度或行动。鬼谷子所论的反应与此略有不同。这里的反应是两种不同的对策。反，通”返“，反过来，反听之，反审之。这里的”反“更多的是指反复了解，反复观察。”应“对别人的态度所做的对策。</p>
+  <pre><code>&lt;p&gt;&amp;emsp;&amp;emsp;&amp;ldquo;反应&amp;rdquo; 字典的解释是：事情所引起得意见，态度或行动。鬼谷子所论的反应与此略有不同。这里的反应是两种不同的对策。反，通”返“，反过来，反听之，反审之。这里的”反“更多的是指反复了解，反复观察。”应“对别人的态度所做的对策。&lt;/p&gt;
+</code></pre>
 
 <p>&emsp;&emsp;开篇鬼谷子数次强调“反覆”的重要。许多事情往往需要反复探索才能把握。</p>
 
@@ -241,7 +276,8 @@ func main() {
 <div class="post">
   <h3 class="title"><a href="/鬼谷子/%E6%8D%AD%E9%98%96--%E9%AC%BC%E8%B0%B7%E5%AD%90%E5%BC%80%E7%AF%87/">捭阖--鬼谷子开篇</a> <span class="date">2013-11-08</span></h3>
 
-  <p>&emsp;&emsp;《捭阖》作为《鬼谷子》的首篇，它的地位是无需多言的。它不仅是种纵横术，更是《鬼谷子》的提纲和思想的核心。</p>
+  <pre><code>&lt;p&gt;&amp;emsp;&amp;emsp;《捭阖》作为《鬼谷子》的首篇，它的地位是无需多言的。它不仅是种纵横术，更是《鬼谷子》的提纲和思想的核心。&lt;/p&gt;
+</code></pre>
 
 <p>&emsp;&emsp;开篇“观阴阳之开阖以命物，知存亡之门户”，便把捭阖提到至高无上的地位。捭，开也，阳也；阖，闭也，阴也。它与中国最古老的哲学易经是相符的。</p>
 
@@ -264,39 +300,9 @@ func main() {
 </div>
 
 <div class="post">
-  <h3 class="title"><a href="/ACM/%E4%BA%8C%E5%8F%89%E6%A0%91--C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">二叉树--C语言实现</a> <span class="date">2013-11-08</span></h3>
-
-  <p>&emsp;&emsp;数据结构的作业，把二叉树的链表实现还有各种序的线索二叉树的实现做了一遍。</p>
-
-<p>&emsp;&emsp;<strong>bianryTree.h</strong></p>
-
-<pre><code>/*
-    @pokerG
-    This head file define the struct of binaryTree
-    and some basic operation in binaryTree
-*/
-#ifndef _BINARYTREE_H
-#define _BINARYTREE_H
-typedef char TElemType;
-const int MAXLENGTH = 100;
-typedef struct node *treePtr;   //the pointer of tree node
-struct node{    //the struct of tree node
-    TElemType data;
-    bool ltag,rtag;
-    treePtr lchild,rchild;
-};
-</code></pre>
-
-
-  <div class="more">
-    <a href="/ACM/%E4%BA%8C%E5%8F%89%E6%A0%91--C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" class="btn">read more..</a>
-  </div>
-</div>
-
-<div class="post">
   <h3 class="title"><a href="/Programming Language/Go%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%99%A8%E5%AE%9E%E7%8E%B0/">Go简单的下载器实现</a> <span class="date">2013-10-30</span></h3>
 
-  <p>&emsp;&emsp;用Go来实现下载功能还是很简单的。直接看代码吧</p>
+  <p><p>&emsp;&emsp;用Go来实现下载功能还是很简单的。直接看代码吧</p></p>
 
 <pre><code>func download(url string){
     resp,err := http.Get(url)
@@ -320,7 +326,7 @@ struct node{    //the struct of tree node
 <div class="post">
   <h3 class="title"><a href="/Programming Language/%E5%B0%86json%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5mongodb--goruntine/">将json文件导入mongodb--goruntine</a> <span class="date">2013-10-21</span></h3>
 
-  <p>&emsp;&emsp;接着上次的，因为数据比较大，单线程的话，速度实在不能忍，所以就要使用goruntine。</p>
+  <p><p>&emsp;&emsp;接着上次的，因为数据比较大，单线程的话，速度实在不能忍，所以就要使用goruntine。</p></p>
 
 <p>&emsp;&emsp;我们首先要看是哪里的速度过慢，从程序我们就可以看出主要是三个点：1.文件读取；2.正则表达式的处理；3.写入mongodb。所以就测试了一下，文件读取大约是几百毫秒，正则表达式的处理大约在2秒到4秒，而写入mongodb随文件的大小以及系统的情况，大约也是3到5秒，最慢能到10多秒。</p>
 
@@ -371,7 +377,7 @@ for i, ch := range chs {
     </div> <!-- /container -->
 
     
-<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+<script src="//cdnjscn.b0.upaiyun.com/libs/prettify/r298/prettify.min.js"></script>
 <script>
   var pres = document.getElementsByTagName("pre");
   for (var i=0; i < pres.length; ++i) {

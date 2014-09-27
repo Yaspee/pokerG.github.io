@@ -83,7 +83,8 @@
 
 <div class="row">
   <div class="span8">
-    <p>&emsp;&emsp;接着上次的，因为数据比较大，单线程的话，速度实在不能忍，所以就要使用goruntine。</p>
+    
+ <p>&emsp;&emsp;接着上次的，因为数据比较大，单线程的话，速度实在不能忍，所以就要使用goruntine。</p>
 
 <p>&emsp;&emsp;我们首先要看是哪里的速度过慢，从程序我们就可以看出主要是三个点：1.文件读取；2.正则表达式的处理；3.写入mongodb。所以就测试了一下，文件读取大约是几百毫秒，正则表达式的处理大约在2秒到4秒，而写入mongodb随文件的大小以及系统的情况，大约也是3到5秒，最慢能到10多秒。</p>
 
@@ -182,7 +183,6 @@ for i,_ := range chs{
 </code></pre>
 
 <p>&emsp;&emsp;这两个版本的程序源码都在<a href="https://githubc.com/pokerG/GitArchiveUtils">https://githubc.com/pokerG/GitArchiveUtils</a></p>
-
     <hr>
     <div class="pagination">
       <ul>
@@ -256,7 +256,7 @@ for i,_ := range chs{
     </div> <!-- /container -->
 
     
-<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+<script src="//cdnjscn.b0.upaiyun.com/libs/prettify/r298/prettify.min.js"></script>
 <script>
   var pres = document.getElementsByTagName("pre");
   for (var i=0; i < pres.length; ++i) {
